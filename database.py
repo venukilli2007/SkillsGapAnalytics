@@ -24,17 +24,6 @@ CREATE TABLE IF NOT EXISTS profiles (
 """)
 
 cursor.execute("""
-CREATE TABLE IF NOT EXISTS profiles (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT,
-    email TEXT,
-    college TEXT,
-    course TEXT,
-    career_goal TEXT
-)
-""")
-
-cursor.execute("""
 CREATE TABLE IF NOT EXISTS skills (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     email TEXT NOT NULL,
@@ -42,11 +31,6 @@ CREATE TABLE IF NOT EXISTS skills (
     level TEXT NOT NULL
 )
 """)
-
-conn.commit()
-conn.close()
-
-print("Database created successfully!")
 
 conn.commit()
 conn.close()
