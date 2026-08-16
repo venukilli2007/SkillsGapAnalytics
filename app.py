@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import database
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -22,6 +23,8 @@ def register():
     name = request.form["name"]
     email = request.form["email"]
     password = request.form["password"]
+
+    password_hash = generate_password_hash(password)
 
     conn = sqlite3.connect("skillsgap.db")
     cursor = conn.cursor()
@@ -45,19 +48,20 @@ def register():
 def login():
     email = request.form["email"]
     password = request.form["password"]
+    password_hash = generate_password_hash(password)
 
     conn = sqlite3.connect("skillsgap.db")
     cursor = conn.cursor()
 
     cursor.execute(
-        "SELECT * FROM users WHERE email=? AND password=?",
-        (email, password)
-    )
+    "SELECT * FROM users WHERE email=?",
+    (email,)
+)
 
-    user = cursor.fetchone()
-    conn.close()
+user = cursor.fetchone()
+conn.close()
 
-    if user:
+if user and check_password_hash(user[3], password):
         session["user_email"] = user[2]
         session["user_name"] = user[1]
 
