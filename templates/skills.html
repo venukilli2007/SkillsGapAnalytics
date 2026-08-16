@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Skills | SkillsGapAnalytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .skills-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .skills-icon {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 42px;
+
+            background: linear-gradient(
+                135deg,
+                #1677ff,
+                #774cff
+            );
+
+            box-shadow:
+                0 10px 35px rgba(80,100,255,0.35);
+        }
+
+        .skill-form-card {
+            max-width: 700px;
+            margin: auto;
+
+            padding: 30px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.055);
+
+            border: 1px solid rgba(255,255,255,0.11);
+
+            box-shadow:
+                0 15px 45px rgba(0,0,0,0.25);
+        }
+
+        .skill-form-card h2 {
+            margin-top: 0;
+        }
+
+        .skill-form-card p {
+            margin-bottom: 25px;
+        }
+
+        .level-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .level-card {
+            padding: 18px;
+            border-radius: 14px;
+
+            background: rgba(255,255,255,0.05);
+
+            border: 1px solid rgba(255,255,255,0.08);
+
+            text-align: center;
+        }
+
+        .level-card strong {
+            display: block;
+            margin-bottom: 7px;
+            color: #ffffff;
+        }
+
+        .level-card span {
+            color: #8998b5;
+            font-size: 13px;
+        }
+
+        .skill-navigation {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+
+            margin-top: 30px;
+            padding-top: 20px;
+
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 650px) {
+            .level-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- NAVIGATION -->
+
+    <nav class="top-nav">
+
+        <div class="logo">
+            SkillsGapAnalytics
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                Profile
+            </a>
+
+            <a href="{{ url_for('skills') }}">
+                My Skills
+            </a>
+
+            <a href="{{ url_for('skill_gap_results') }}">
+                Results
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HEADER -->
+
+    <div class="skills-header">
+
+        <div class="skills-icon">
+            💻
+        </div>
+
+        <h1>My Skills</h1>
+
+        <p>
+            Add your technical skills and select your current
+            proficiency level.
+        </p>
+
+    </div>
+
+
+    <!-- ADD SKILL -->
+
+    <div class="skill-form-card">
+
+        <h2>Add New Skill</h2>
+
+        <p>
+            Tell SkillsGapAnalytics what you currently know.
+            We'll use this information to identify your skill gaps.
+        </p>
+
+
+        <form method="POST" action="/skills">
+
+            <label>Skill Name</label>
+
+            <input
+                type="text"
+                name="skill"
+                placeholder="Example: Python"
+                required
+            >
+
+
+            <label>Current Skill Level</label>
+
+            <select name="level" required>
+
+                <option value="">
+                    Select your level
+                </option>
+
+                <option value="Beginner">
+                    Beginner
+                </option>
+
+                <option value="Intermediate">
+                    Intermediate
+                </option>
+
+                <option value="Advanced">
+                    Advanced
+                </option>
+
+            </select>
+
+
+            <button type="submit">
+                ＋ Add Skill
+            </button>
+
+        </form>
+
+
+        <!-- LEVEL INFORMATION -->
+
+        <div class="level-info">
+
+            <div class="level-card">
+
+                <strong>Beginner</strong>
+
+                <span>
+                    Learning the fundamentals
+                </span>
+
+            </div>
+
+
+            <div class="level-card">
+
+                <strong>Intermediate</strong>
+
+                <span>
+                    Comfortable with the basics
+                </span>
+
+            </div>
+
+
+            <div class="level-card">
+
+                <strong>Advanced</strong>
+
+                <span>
+                    Strong practical knowledge
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="skill-navigation">
+
+        <a href="{{ url_for('dashboard') }}">
+            ← Dashboard
+        </a>
+
+        <a href="{{ url_for('skill_gap_results') }}">
+            View Skill Gap Results →
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

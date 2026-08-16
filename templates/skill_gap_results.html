@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Skill Gap Results | SkillsGapAnalytics</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-icon {
+            width: 90px;
+            height: 90px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            font-size: 42px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1677ff,
+                    #774cff
+                );
+
+            box-shadow:
+                0 10px 35px rgba(80,100,255,0.35);
+        }
+
+        .results-header h1 {
+            margin-bottom: 10px;
+        }
+
+        .results-header p {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .results-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+        }
+
+        .analysis-card {
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            border:
+                1px solid rgba(255,255,255,0.12);
+
+            box-shadow:
+                0 15px 45px rgba(0,0,0,0.25);
+
+            transition: 0.3s;
+        }
+
+        .analysis-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            border-color:
+                rgba(79,172,254,0.4);
+
+            box-shadow:
+                0 20px 55px rgba(0,0,0,0.35);
+        }
+
+        .skill-title {
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            margin-bottom: 20px;
+
+            color: white;
+        }
+
+        .info-row {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 14px 0;
+
+            border-bottom:
+                1px solid
+                rgba(255,255,255,0.07);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #8f9db8;
+        }
+
+        .info-value {
+            font-weight: bold;
+            color: #eaf1ff;
+            text-align: right;
+        }
+
+        .level-badge {
+
+            display: inline-block;
+
+            padding:
+                7px 13px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(79,172,254,0.14);
+
+            color: #70c4ff;
+
+            font-size: 13px;
+        }
+
+        .gap-badge {
+
+            display: inline-block;
+
+            padding:
+                7px 13px;
+
+            border-radius: 30px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+        .gap-high {
+            background:
+                rgba(255,80,80,0.14);
+
+            color: #ff8d8d;
+        }
+
+        .gap-medium {
+            background:
+                rgba(255,180,50,0.14);
+
+            color: #ffc66d;
+        }
+
+        .gap-low {
+            background:
+                rgba(60,210,140,0.14);
+
+            color: #6ee7ad;
+        }
+
+        .recommendation {
+
+            margin-top: 20px;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,0.045);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.07);
+        }
+
+        .recommendation-title {
+
+            font-weight: bold;
+
+            color: #8bc9ff;
+
+            margin-bottom: 8px;
+        }
+
+        .recommendation p {
+
+            margin: 0;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .no-results {
+
+            text-align: center;
+
+            padding: 50px 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.1);
+        }
+
+        .no-results-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .results-navigation {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            flex-wrap: wrap;
+
+            gap: 15px;
+
+            margin-top: 35px;
+
+            padding-top: 22px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.08);
+        }
+
+        @media (max-width: 750px) {
+
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- NAVIGATION -->
+
+    <nav class="top-nav">
+
+        <div class="logo">
+            SkillsGapAnalytics
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                Profile
+            </a>
+
+            <a href="{{ url_for('skills') }}">
+                My Skills
+            </a>
+
+            <a href="{{ url_for('skill_gap_results') }}">
+                Results
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HEADER -->
+
+    <div class="results-header">
+
+        <div class="results-icon">
+            📊
+        </div>
+
+        <h1>
+            Skill Gap Analysis
+        </h1>
+
+        <p>
+            Understand where you currently stand and discover
+            what you should focus on next to improve your skills.
+        </p>
+
+    </div>
+
+
+    {% if results %}
+
+
+        <div class="results-grid">
+
+
+            {% for result in results %}
+
+
+                <div class="analysis-card">
+
+
+                    <div class="skill-title">
+                        {{ result.skill }}
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Current Level
+                        </span>
+
+                        <span class="info-value">
+
+                            <span class="level-badge">
+                                {{ result.level }}
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Skill Gap
+                        </span>
+
+                        <span class="info-value">
+
+                            {% if result.gap == "High" %}
+
+                                <span class="gap-badge gap-high">
+                                    High
+                                </span>
+
+                            {% elif result.gap == "Medium" %}
+
+                                <span class="gap-badge gap-medium">
+                                    Medium
+                                </span>
+
+                            {% elif result.gap == "Low" %}
+
+                                <span class="gap-badge gap-low">
+                                    Low
+                                </span>
+
+                            {% else %}
+
+                                <span class="gap-badge">
+                                    {{ result.gap }}
+                                </span>
+
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="recommendation">
+
+                        <div class="recommendation-title">
+                            💡 Recommended Next Step
+                        </div>
+
+                        <p>
+                            {{ result.recommendation }}
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+    {% else %}
+
+
+        <div class="no-results">
+
+            <div class="no-results-icon">
+                📚
+            </div>
+
+            <h2>
+                No Skills Added Yet
+            </h2>
+
+            <p>
+                Add some technical skills first to generate
+                your personalized skill gap analysis.
+            </p>
+
+            <a href="{{ url_for('skills') }}">
+                Add Your First Skill →
+            </a>
+
+        </div>
+
+
+    {% endif %}
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <div class="results-navigation">
+
+        <a href="{{ url_for('dashboard') }}">
+            ← Back to Dashboard
+        </a>
+
+        <a href="{{ url_for('skills') }}">
+            + Add More Skills
+        </a>
+
+    </div>
+
+
+</div>
+
+</body>
+
+</html>

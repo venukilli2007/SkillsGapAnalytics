@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SkillsGapAnalytics | Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+
+            background:
+                radial-gradient(circle at 15% 20%, rgba(0, 119, 255, 0.25), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(120, 40, 255, 0.25), transparent 30%),
+                linear-gradient(135deg, #050816, #0a1025 50%, #050816);
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    transparent 0%,
+                    rgba(255,255,255,0.025) 50%,
+                    transparent 100%
+                );
+
+            pointer-events: none;
+        }
+
+        .dashboard {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 25px 0 50px;
+        }
+
+        /* NAVIGATION */
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 18px 24px;
+            margin-bottom: 45px;
+
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.12);
+
+            border-radius: 18px;
+
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            box-shadow:
+                0 10px 40px rgba(0,0,0,0.25);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+
+            background: linear-gradient(90deg, #4facfe, #a66cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #dce8ff;
+            text-decoration: none;
+            padding: 9px 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-2px);
+        }
+
+        /* HERO */
+
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 30px;
+
+            padding: 45px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(30, 90, 200, 0.28),
+                    rgba(120, 40, 220, 0.20)
+                );
+
+            border: 1px solid rgba(255,255,255,0.12);
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.35);
+
+            backdrop-filter: blur(15px);
+        }
+
+        .hero-text {
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            margin: 0 0 15px;
+
+            font-size: clamp(35px, 5vw, 62px);
+            line-height: 1.05;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #74c0ff,
+                #b88cff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: #b9c7df;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .hero-badge {
+            min-width: 170px;
+            padding: 25px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.13);
+        }
+
+        .hero-badge .icon {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .hero-badge strong {
+            display: block;
+            font-size: 15px;
+            color: #dce8ff;
+        }
+
+        /* SECTION */
+
+        .section-title {
+            margin: 45px 0 20px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .section-title p {
+            margin-top: 6px;
+            color: #8191ad;
+        }
+
+        /* STAT CARDS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .stat-card {
+            position: relative;
+
+            padding: 25px;
+
+            min-height: 150px;
+
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.065);
+            border: 1px solid rgba(255,255,255,0.11);
+
+            backdrop-filter: blur(12px);
+
+            overflow: hidden;
+
+            transition: 0.35s;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            right: -35px;
+            top: -35px;
+
+            border-radius: 50%;
+
+            background: rgba(80,150,255,0.15);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-7px);
+
+            border-color: rgba(100,170,255,0.45);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .stat-title {
+            color: #9eacc5;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-number {
+            margin-top: 15px;
+
+            font-size: 42px;
+            font-weight: 800;
+
+            background: linear-gradient(
+                90deg,
+                #ffffff,
+                #65b7ff
+            );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* SKILLS */
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .skill-card {
+            padding: 23px;
+
+            border-radius: 18px;
+
+            background: rgba(255,255,255,0.065);
+
+            border: 1px solid rgba(255,255,255,0.11);
+
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.09);
+        }
+
+        .skill-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .level {
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            background: rgba(79,172,254,0.15);
+
+            color: #70c4ff;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ACTIONS */
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .action-card {
+            padding: 25px;
+
+            border-radius: 18px;
+
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.09),
+                rgba(255,255,255,0.04)
+            );
+
+            border: 1px solid rgba(255,255,255,0.11);
+
+            text-decoration: none;
+            color: white;
+
+            transition: 0.3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-6px);
+
+            border-color: rgba(100,180,255,0.45);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .action-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .action-card h3 {
+            margin: 0 0 8px;
+        }
+
+        .action-card p {
+            margin: 0;
+            color: #8f9eb8;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* EMPTY */
+
+        .empty {
+            padding: 30px;
+
+            text-align: center;
+
+            color: #8f9eb8;
+
+            background: rgba(255,255,255,0.05);
+
+            border-radius: 18px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+
+            color: #66758f;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 900px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .dashboard {
+                width: 94%;
+            }
+
+            .top-nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 30px 22px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- NAVIGATION -->
+
+    <nav class="top-nav">
+
+        <div class="logo">
+            SkillsGapAnalytics
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('profile') }}">
+                Profile
+            </a>
+
+            <a href="{{ url_for('skills') }}">
+                My Skills
+            </a>
+
+            <a href="{{ url_for('skill_gap_results') }}">
+                Results
+            </a>
+
+            <a href="{{ url_for('logout') }}">
+                Logout
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-text">
+
+            <h1>
+                Skills Gap<br>
+                Analytics
+            </h1>
+
+            <p>
+                Understand your current abilities, identify your
+                skill gaps, and discover what you should learn next
+                to move closer to your career goals.
+            </p>
+
+        </div>
+
+        <div class="hero-badge">
+
+            <div class="icon">
+                🚀
+            </div>
+
+            <strong>
+                Build. Learn. Grow.
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY -->
+
+    <div class="section-title">
+
+        <h2>Skill Overview</h2>
+
+        <p>
+            Your current skill profile at a glance.
+        </p>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Total Skills
+            </div>
+
+            <div class="stat-number">
+                {{ total_skills }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Beginner
+            </div>
+
+            <div class="stat-number">
+                {{ beginner }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Intermediate
+            </div>
+
+            <div class="stat-number">
+                {{ intermediate }}
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-title">
+                Advanced
+            </div>
+
+            <div class="stat-number">
+                {{ advanced }}
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- YOUR SKILLS -->
+
+    <div class="section-title">
+
+        <h2>Your Skills</h2>
+
+        <p>
+            Skills currently saved in your profile.
+        </p>
+
+    </div>
+
+
+    {% if skills %}
+
+        <div class="skills-grid">
+
+            {% for skill in skills %}
+
+                <div class="skill-card">
+
+                    <div class="skill-name">
+                        {{ skill[0] }}
+                    </div>
+
+                    <span class="level">
+                        {{ skill[1] }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            <h3>No skills added yet</h3>
+
+            <p>
+                Add your first skill to start your skill-gap analysis.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="section-title">
+
+        <h2>Quick Actions</h2>
+
+        <p>
+            Continue building your professional profile.
+        </p>
+
+    </div>
+
+
+    <div class="actions">
+
+        <a class="action-card"
+           href="{{ url_for('profile') }}">
+
+            <div class="action-icon">
+                👤
+            </div>
+
+            <h3>
+                My Profile
+            </h3>
+
+            <p>
+                Update your education and career information.
+            </p>
+
+        </a>
+
+
+        <a class="action-card"
+           href="{{ url_for('skills') }}">
+
+            <div class="action-icon">
+                💻
+            </div>
+
+            <h3>
+                Manage Skills
+            </h3>
+
+            <p>
+                Add and update your technical skills.
+            </p>
+
+        </a>
+
+
+        <a class="action-card"
+           href="{{ url_for('skill_gap_results') }}">
+
+            <div class="action-icon">
+                📊
+            </div>
+
+            <h3>
+                Analyze Skills
+            </h3>
+
+            <p>
+                View your skill gaps and personalized recommendations.
+            </p>
+
+        </a>
+
+    </div>
+
+
+    <footer>
+        SkillsGapAnalytics © 2026 · Personal Skill Development Platform
+    </footer>
+
+</div>
+
+</body>
+</html>
