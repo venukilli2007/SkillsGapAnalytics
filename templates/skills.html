@@ -1,127 +1,1235 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Skills | SkillsGapAnalytics</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <title>Skills | SkillsGapAnalytics</title>
 
     <style>
-        .skills-header {
-            text-align: center;
-            margin-bottom: 35px;
+
+        * {
+            box-sizing: border-box;
         }
 
-        .skills-icon {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 18px;
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #ffffff;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0, 140, 255, .20),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(150, 50, 255, .18),
+                    transparent 30%
+                ),
+
+                #030712;
+
+            overflow-x: hidden;
+        }
+
+
+        /* BACKGROUND GRID */
+
+        body::before {
+
+            content: "";
+
+            position: fixed;
+
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+
+            pointer-events: none;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent
+                );
+        }
+
+
+        /* MAIN */
+
+        .container {
+
+            width: 92%;
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                25px 0 60px;
+
+            position: relative;
+
+            z-index: 1;
+        }
+
+
+        /* NAVIGATION */
+
+        .navbar {
 
             display: flex;
+
+            justify-content:
+                space-between;
+
             align-items: center;
-            justify-content: center;
+
+            gap: 20px;
+
+            padding: 16px 20px;
+
+            margin-bottom: 25px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(10,18,38,.72);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 15px 50px
+                rgba(0,0,0,.30);
+        }
+
+
+        .logo {
+
+            font-size: 21px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #4facfe,
+                    #9f7aea
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 6px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .nav-links a {
+
+            color: #9eacc5;
+
+            text-decoration: none;
+
+            padding:
+                9px 13px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            transition: .25s;
+        }
+
+
+        .nav-links a:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.08);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* PAGE HEADER */
+
+        .page-header {
+
+            padding:
+                35px 35px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(25,80,170,.28),
+                    rgba(100,40,180,.18)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            backdrop-filter:
+                blur(18px);
+
+            margin-bottom: 20px;
+
+            overflow: hidden;
+
+            position: relative;
+        }
+
+
+        .page-header::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            right: -100px;
+
+            top: -130px;
 
             border-radius: 50%;
 
-            font-size: 42px;
+            background:
+                rgba(80,140,255,.12);
 
-            background: linear-gradient(
-                135deg,
-                #1677ff,
-                #774cff
-            );
-
-            box-shadow:
-                0 10px 35px rgba(80,100,255,0.35);
+            filter:
+                blur(20px);
         }
 
-        .skill-form-card {
+
+        .eyebrow {
+
+            display: inline-block;
+
+            padding:
+                7px 12px;
+
+            border-radius: 30px;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            text-transform:
+                uppercase;
+
+            color: #6ec6ff;
+
+            background:
+                rgba(70,160,255,.08);
+
+            border:
+                1px solid
+                rgba(70,160,255,.20);
+        }
+
+
+        .page-header h1 {
+
+            margin:
+                15px 0 8px;
+
+            font-size:
+                clamp(32px,5vw,55px);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #74c7ff,
+                    #b58aff
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .page-header p {
+
+            margin: 0;
+
+            color: #8d9bb4;
+
             max-width: 700px;
-            margin: auto;
 
-            padding: 30px;
+            line-height: 1.7;
 
-            border-radius: 20px;
+            font-size: 14px;
+        }
 
-            background: rgba(255,255,255,0.055);
 
-            border: 1px solid rgba(255,255,255,0.11);
+        /* ANALYTICS GRID */
+
+        .analytics {
+
+            display: grid;
+
+            grid-template-columns:
+                1.3fr 1fr;
+
+            gap: 18px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .glass-card {
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            border-radius: 22px;
+
+            backdrop-filter:
+                blur(18px);
 
             box-shadow:
-                0 15px 45px rgba(0,0,0,0.25);
+                0 20px 60px
+                rgba(0,0,0,.25);
         }
 
-        .skill-form-card h2 {
-            margin-top: 0;
+
+        /* READINESS */
+
+        .readiness-card {
+
+            padding: 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 35px;
         }
 
-        .skill-form-card p {
-            margin-bottom: 25px;
+
+        .circle {
+
+            width: 190px;
+
+            height: 190px;
+
+            min-width: 190px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            position: relative;
+
+            background:
+                conic-gradient(
+                    #4facfe
+                    {{ readiness }}%,
+
+                    rgba(255,255,255,.08)
+                    {{ readiness }}% 100%
+                );
+
+            box-shadow:
+                0 0 45px
+                rgba(60,150,255,.15);
         }
 
-        .level-info {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 25px;
+
+        .circle::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 13px;
+
+            border-radius: 50%;
+
+            background:
+                #071020;
+
+            border:
+                1px solid
+                rgba(255,255,255,.08);
         }
 
-        .level-card {
-            padding: 18px;
-            border-radius: 14px;
 
-            background: rgba(255,255,255,0.05);
+        .circle-content {
 
-            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+
+            z-index: 2;
 
             text-align: center;
         }
 
-        .level-card strong {
-            display: block;
-            margin-bottom: 7px;
-            color: #ffffff;
+
+        .circle-number {
+
+            font-size: 42px;
+
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    white,
+                    #72c6ff
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
         }
 
-        .level-card span {
-            color: #8998b5;
+
+        .circle-label {
+
+            color: #8290aa;
+
+            font-size: 11px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing: 1px;
+        }
+
+
+        .readiness-info h2 {
+
+            margin: 0 0 10px;
+
+            font-size: 25px;
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding:
+                7px 12px;
+
+            border-radius: 20px;
+
+            color: #72c8ff;
+
+            background:
+                rgba(70,160,255,.10);
+
+            border:
+                1px solid
+                rgba(70,160,255,.18);
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            margin-bottom: 14px;
+        }
+
+
+        .readiness-info p {
+
+            color: #8795ad;
+
+            line-height: 1.7;
+
+            font-size: 13px;
+
+            margin: 0;
+        }
+
+
+        /* STATISTICS */
+
+        .statistics {
+
+            padding: 25px;
+        }
+
+
+        .statistics h2 {
+
+            margin:
+                0 0 20px;
+
+            font-size: 20px;
+        }
+
+
+        .stat-row {
+
+            margin-bottom: 18px;
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            margin-bottom: 7px;
+
+            font-size: 12px;
+
+            color: #9aa8bf;
+        }
+
+
+        .bar {
+
+            width: 100%;
+
+            height: 9px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.07);
+
+            overflow: hidden;
+        }
+
+
+        .bar-fill {
+
+            height: 100%;
+
+            border-radius: 20px;
+
+            transition:
+                width 1s ease;
+        }
+
+
+        .beginner-bar {
+
+            width:
+                {% if total_skills > 0 %}
+                    {{ (beginner / total_skills * 100)|round }}
+                {% else %}
+                    0
+                {% endif %}%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #3b82f6,
+                    #60a5fa
+                );
+        }
+
+
+        .intermediate-bar {
+
+            width:
+                {% if total_skills > 0 %}
+                    {{ (intermediate / total_skills * 100)|round }}
+                {% else %}
+                    0
+                {% endif %}%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #8b5cf6,
+                    #a78bfa
+                );
+        }
+
+
+        .advanced-bar {
+
+            width:
+                {% if total_skills > 0 %}
+                    {{ (advanced / total_skills * 100)|round }}
+                {% else %}
+                    0
+                {% endif %}%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #22d3ee
+                );
+        }
+
+
+        /* ADD SKILL */
+
+        .add-section {
+
+            padding: 28px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .section-heading {
+
+            margin-bottom: 22px;
+        }
+
+
+        .section-heading h2 {
+
+            margin: 0;
+
+            font-size: 23px;
+        }
+
+
+        .section-heading p {
+
+            margin:
+                6px 0 0;
+
+            color: #71809a;
+
             font-size: 13px;
         }
 
-        .skill-navigation {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 15px;
 
-            margin-top: 30px;
-            padding-top: 20px;
+        .skill-form {
 
-            border-top: 1px solid rgba(255,255,255,0.08);
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr auto;
+
+            gap: 12px;
         }
 
-        @media (max-width: 650px) {
-            .level-info {
+
+        .input-group {
+
+            position: relative;
+        }
+
+
+        .input-group input,
+        .input-group select {
+
+            width: 100%;
+
+            padding:
+                15px 16px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            outline: none;
+
+            background:
+                rgba(0,0,0,.22);
+
+            color: white;
+
+            font-size: 14px;
+
+            transition: .25s;
+        }
+
+
+        .input-group input::placeholder {
+
+            color: #61708a;
+        }
+
+
+        .input-group input:focus,
+        .input-group select:focus {
+
+            border-color:
+                rgba(80,170,255,.55);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(50,140,255,.08);
+        }
+
+
+        .input-group select option {
+
+            background:
+                #101827;
+
+            color: white;
+        }
+
+
+        .add-button {
+
+            border: none;
+
+            border-radius: 12px;
+
+            padding:
+                0 22px;
+
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1685ff,
+                    #7648ff
+                );
+
+            box-shadow:
+                0 8px 25px
+                rgba(60,100,255,.20);
+
+            transition: .3s;
+        }
+
+
+        .add-button:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 14px 35px
+                rgba(70,110,255,.30);
+        }
+
+
+        /* RECOMMENDATION */
+
+        .recommendation {
+
+            padding: 20px 24px;
+
+            margin-bottom: 20px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(70,130,255,.10),
+                    rgba(140,70,255,.08)
+                );
+
+            border:
+                1px solid
+                rgba(100,160,255,.13);
+        }
+
+
+        .recommendation-title {
+
+            font-size: 12px;
+
+            color: #6fc6ff;
+
+            font-weight: bold;
+
+            letter-spacing: 1px;
+
+            text-transform:
+                uppercase;
+
+            margin-bottom: 8px;
+        }
+
+
+        .recommendation p {
+
+            margin: 0;
+
+            color: #9aa9c0;
+
+            line-height: 1.6;
+
+            font-size: 13px;
+        }
+
+
+        /* SKILLS LIST */
+
+        .skills-header {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            margin:
+                35px 0 16px;
+        }
+
+
+        .skills-header h2 {
+
+            margin: 0;
+
+            font-size: 25px;
+        }
+
+
+        .count {
+
+            color: #75849e;
+
+            font-size: 12px;
+
+            padding:
+                7px 12px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.05);
+        }
+
+
+        .skills-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+
+        .skill-card {
+
+            padding: 22px;
+
+            border-radius: 19px;
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            position: relative;
+
+            overflow: hidden;
+
+            transition: .3s;
+        }
+
+
+        .skill-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                rgba(90,170,255,.35);
+
+            box-shadow:
+                0 18px 45px
+                rgba(0,0,0,.28);
+        }
+
+
+        .skill-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+
+            height: 100px;
+
+            right: -45px;
+
+            top: -45px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(70,140,255,.08);
+        }
+
+
+        .skill-top {
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .skill-name {
+
+            font-size: 18px;
+
+            font-weight: 700;
+        }
+
+
+        .level {
+
+            padding:
+                6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        .level.beginner {
+
+            color: #60a5fa;
+
+            background:
+                rgba(59,130,246,.12);
+        }
+
+
+        .level.intermediate {
+
+            color: #a78bfa;
+
+            background:
+                rgba(139,92,246,.12);
+        }
+
+
+        .level.advanced {
+
+            color: #22d3ee;
+
+            background:
+                rgba(6,182,212,.12);
+        }
+
+
+        .skill-progress {
+
+            height: 7px;
+
+            width: 100%;
+
+            background:
+                rgba(255,255,255,.07);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-bottom: 10px;
+        }
+
+
+        .skill-progress-fill {
+
+            height: 100%;
+
+            border-radius: 20px;
+        }
+
+
+        .skill-card small {
+
+            color: #687791;
+
+            font-size: 11px;
+        }
+
+
+        /* DELETE BUTTON */
+
+        .delete-form {
+
+            margin-top: 16px;
+        }
+
+
+        .delete-button {
+
+            width: 100%;
+
+            padding: 9px;
+
+            border-radius: 9px;
+
+            border:
+                1px solid
+                rgba(255,80,100,.13);
+
+            background:
+                rgba(255,70,90,.05);
+
+            color: #d98591;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            transition: .25s;
+        }
+
+
+        .delete-button:hover {
+
+            background:
+                rgba(255,70,90,.12);
+
+            color: #ff9da8;
+        }
+
+
+        /* EMPTY */
+
+        .empty {
+
+            padding:
+                55px 25px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px dashed
+                rgba(255,255,255,.12);
+        }
+
+
+        .empty-icon {
+
+            font-size: 45px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .empty h3 {
+
+            margin: 0 0 8px;
+        }
+
+
+        .empty p {
+
+            margin: 0;
+
+            color: #75849c;
+
+            font-size: 13px;
+        }
+
+
+        /* FOOTER */
+
+        footer {
+
+            text-align: center;
+
+            margin-top: 55px;
+
+            color: #4f5d73;
+
+            font-size: 11px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media(max-width: 950px) {
+
+            .analytics {
+
                 grid-template-columns: 1fr;
             }
+
+            .skills-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .skill-form {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .add-button {
+
+                padding: 14px;
+            }
         }
+
+
+        @media(max-width: 650px) {
+
+            .container {
+
+                width: 94%;
+            }
+
+            .navbar {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+            }
+
+            .nav-links {
+
+                width: 100%;
+            }
+
+            .readiness-card {
+
+                flex-direction:
+                    column;
+
+                text-align:
+                    center;
+            }
+
+            .skills-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .skill-form {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .add-button {
+
+                padding: 15px;
+            }
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <!-- NAVIGATION -->
 
-    <nav class="top-nav">
+    <!-- ================================================= -->
+    <!-- NAVIGATION -->
+    <!-- ================================================= -->
+
+    <nav class="navbar">
 
         <div class="logo">
             SkillsGapAnalytics
         </div>
+
 
         <div class="nav-links">
 
@@ -138,7 +1246,7 @@
             </a>
 
             <a href="{{ url_for('skill_gap_results') }}">
-                Results
+                Analysis
             </a>
 
             <a href="{{ url_for('logout') }}">
@@ -150,134 +1258,440 @@
     </nav>
 
 
+    <!-- ================================================= -->
     <!-- HEADER -->
+    <!-- ================================================= -->
 
-    <div class="skills-header">
+    <section class="page-header">
 
-        <div class="skills-icon">
-            💻
+        <span class="eyebrow">
+            Professional Skill Management
+        </span>
+
+        <h1>
+            Build Your Skill Profile
+        </h1>
+
+        <p>
+            Track your abilities, understand your current level,
+            measure career readiness, and continuously improve
+            the skills that matter for your future.
+        </p>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- ANALYTICS -->
+    <!-- ================================================= -->
+
+    <section class="analytics">
+
+
+        <!-- READINESS -->
+
+        <div class="glass-card readiness-card">
+
+            <div class="circle">
+
+                <div class="circle-content">
+
+                    <div class="circle-number">
+                        {{ readiness }}%
+                    </div>
+
+                    <div class="circle-label">
+                        Readiness
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="readiness-info">
+
+                <h2>
+                    Career Readiness
+                </h2>
+
+                <span class="status">
+                    {{ readiness_status }}
+                </span>
+
+                <p>
+                    Your readiness score is calculated from
+                    the current skill levels in your profile.
+                    Keep adding skills and move them from
+                    beginner to advanced through practical
+                    projects and continuous learning.
+                </p>
+
+            </div>
+
         </div>
 
-        <h1>My Skills</h1>
 
-        <p>
-            Add your technical skills and select your current
-            proficiency level.
-        </p>
+        <!-- STATISTICS -->
 
-    </div>
+        <div class="glass-card statistics">
+
+            <h2>
+                Skill Analytics
+            </h2>
 
 
+            <div class="stat-row">
+
+                <div class="stat-top">
+
+                    <span>
+                        Beginner
+                    </span>
+
+                    <strong>
+                        {{ beginner }}
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <div class="bar-fill beginner-bar">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-row">
+
+                <div class="stat-top">
+
+                    <span>
+                        Intermediate
+                    </span>
+
+                    <strong>
+                        {{ intermediate }}
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <div class="bar-fill intermediate-bar">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-row">
+
+                <div class="stat-top">
+
+                    <span>
+                        Advanced
+                    </span>
+
+                    <strong>
+                        {{ advanced }}
+                    </strong>
+
+                </div>
+
+                <div class="bar">
+
+                    <div class="bar-fill advanced-bar">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
     <!-- ADD SKILL -->
+    <!-- ================================================= -->
 
-    <div class="skill-form-card">
+    <section class="glass-card add-section">
 
-        <h2>Add New Skill</h2>
+        <div class="section-heading">
 
-        <p>
-            Tell SkillsGapAnalytics what you currently know.
-            We'll use this information to identify your skill gaps.
-        </p>
+            <h2>
+                Add New Skill
+            </h2>
+
+            <p>
+                Add a skill and select your current proficiency level.
+            </p>
+
+        </div>
 
 
-        <form method="POST" action="/skills">
+        <form
+            class="skill-form"
+            method="POST"
+            action="{{ url_for('skills') }}"
+        >
 
-            <label>Skill Name</label>
 
-            <input
-                type="text"
-                name="skill"
-                placeholder="Example: Python"
-                required
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    name="skill"
+                    placeholder="Example: Python, Java, SQL..."
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <select
+                    name="level"
+                    required
+                >
+
+                    <option value="">
+                        Select Level
+                    </option>
+
+                    <option value="Beginner">
+                        Beginner
+                    </option>
+
+                    <option value="Intermediate">
+                        Intermediate
+                    </option>
+
+                    <option value="Advanced">
+                        Advanced
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="add-button"
             >
-
-
-            <label>Current Skill Level</label>
-
-            <select name="level" required>
-
-                <option value="">
-                    Select your level
-                </option>
-
-                <option value="Beginner">
-                    Beginner
-                </option>
-
-                <option value="Intermediate">
-                    Intermediate
-                </option>
-
-                <option value="Advanced">
-                    Advanced
-                </option>
-
-            </select>
-
-
-            <button type="submit">
-                ＋ Add Skill
+                + Add Skill
             </button>
+
 
         </form>
 
+    </section>
 
-        <!-- LEVEL INFORMATION -->
 
-        <div class="level-info">
+    <!-- ================================================= -->
+    <!-- RECOMMENDATION -->
+    <!-- ================================================= -->
 
-            <div class="level-card">
+    <section class="recommendation">
 
-                <strong>Beginner</strong>
+        <div class="recommendation-title">
+            Career Recommendation
+        </div>
 
-                <span>
-                    Learning the fundamentals
-                </span>
+        <p>
+            {{ recommendation }}
+        </p>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- SKILLS -->
+    <!-- ================================================= -->
+
+    <div class="skills-header">
+
+        <h2>
+            Your Skills
+        </h2>
+
+        <span class="count">
+            {{ total_skills }} Skills
+        </span>
+
+    </div>
+
+
+    {% if skills %}
+
+
+    <div class="skills-grid">
+
+
+        {% for skill in skills %}
+
+
+        <div class="skill-card">
+
+
+            <div class="skill-top">
+
+                <div class="skill-name">
+                    {{ skill["skill"] }}
+                </div>
+
+
+                {% if skill["level"] == "Beginner" %}
+
+                    <span class="level beginner">
+                        Beginner
+                    </span>
+
+                {% elif skill["level"] == "Intermediate" %}
+
+                    <span class="level intermediate">
+                        Intermediate
+                    </span>
+
+                {% else %}
+
+                    <span class="level advanced">
+                        Advanced
+                    </span>
+
+                {% endif %}
 
             </div>
 
 
-            <div class="level-card">
+            <!-- PROGRESS -->
 
-                <strong>Intermediate</strong>
+            <div class="skill-progress">
 
-                <span>
-                    Comfortable with the basics
-                </span>
+                {% if skill["level"] == "Beginner" %}
+
+                    <div
+                        class="skill-progress-fill beginner-bar"
+                        style="width:35%;"
+                    >
+                    </div>
+
+                {% elif skill["level"] == "Intermediate" %}
+
+                    <div
+                        class="skill-progress-fill intermediate-bar"
+                        style="width:70%;"
+                    >
+                    </div>
+
+                {% else %}
+
+                    <div
+                        class="skill-progress-fill advanced-bar"
+                        style="width:100%;"
+                    >
+                    </div>
+
+                {% endif %}
 
             </div>
 
 
-            <div class="level-card">
+            <small>
 
-                <strong>Advanced</strong>
+                {% if skill["level"] == "Beginner" %}
 
-                <span>
-                    Strong practical knowledge
-                </span>
+                    Foundation level · 35%
 
-            </div>
+                {% elif skill["level"] == "Intermediate" %}
+
+                    Developing level · 70%
+
+                {% else %}
+
+                    Advanced level · 100%
+
+                {% endif %}
+
+            </small>
+
+
+            <!-- DELETE -->
+
+            <form
+                class="delete-form"
+                method="POST"
+                action="{{ url_for('delete_skill', skill_id=skill['id']) }}"
+            >
+
+                <button
+                    type="submit"
+                    class="delete-button"
+                    onclick="return confirm('Remove this skill from your profile?')"
+                >
+                    Remove Skill
+                </button>
+
+            </form>
+
 
         </div>
 
+
+        {% endfor %}
+
+
     </div>
 
 
-    <!-- NAVIGATION -->
+    {% else %}
 
-    <div class="skill-navigation">
 
-        <a href="{{ url_for('dashboard') }}">
-            ← Dashboard
-        </a>
+    <div class="empty">
 
-        <a href="{{ url_for('skill_gap_results') }}">
-            View Skill Gap Results →
-        </a>
+        <div class="empty-icon">
+            🚀
+        </div>
+
+        <h3>
+            Your skill journey starts here
+        </h3>
+
+        <p>
+            Add your first skill above and start building
+            your professional skill profile.
+        </p>
 
     </div>
+
+
+    {% endif %}
+
+
+    <!-- ================================================= -->
+    <!-- FOOTER -->
+    <!-- ================================================= -->
+
+    <footer>
+
+        SkillsGapAnalytics © 2026
+        · Intelligent Skill Development Platform
+
+    </footer>
+
 
 </div>
 
+
 </body>
+
 </html>

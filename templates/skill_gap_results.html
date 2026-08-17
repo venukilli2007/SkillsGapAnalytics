@@ -2,282 +2,744 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Skill Gap Results | SkillsGapAnalytics</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <title>Skill Gap Analysis | SkillsGapAnalytics</title>
 
     <style>
 
-        .results-header {
-            text-align: center;
-            margin-bottom: 40px;
+        * {
+            box-sizing: border-box;
         }
 
-        .results-icon {
-            width: 90px;
-            height: 90px;
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
 
-            margin: 0 auto 18px;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(0, 140, 255, .20),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 85%,
+                    rgba(150, 50, 255, .20),
+                    transparent 30%
+                ),
+                #030712;
 
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.025) 1px,
+                    transparent 1px
+                );
+
+            background-size: 45px 45px;
+            pointer-events: none;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: auto;
+            padding: 25px 0 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
 
-            border-radius: 50%;
+            gap: 20px;
 
-            font-size: 42px;
+            padding: 16px 20px;
+            margin-bottom: 25px;
+
+            background: rgba(10,18,38,.78);
+
+            border: 1px solid rgba(255,255,255,.10);
+            border-radius: 18px;
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,.30);
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #4facfe,
+                    #9f7aea
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #9eacc5;
+            text-decoration: none;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            transition: .25s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255,255,255,.08);
+            transform: translateY(-2px);
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            position: relative;
+
+            padding: 42px;
+
+            margin-bottom: 22px;
+
+            border-radius: 27px;
 
             background:
                 linear-gradient(
                     135deg,
-                    #1677ff,
-                    #774cff
+                    rgba(25,80,170,.30),
+                    rgba(100,40,180,.20)
                 );
 
+            border: 1px solid rgba(255,255,255,.11);
+
+            backdrop-filter: blur(18px);
+
+            overflow: hidden;
+
             box-shadow:
-                0 10px 35px rgba(80,100,255,0.35);
+                0 25px 80px rgba(0,0,0,.30);
         }
 
-        .results-header h1 {
-            margin-bottom: 10px;
+        .hero::after {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            right: -100px;
+            top: -120px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(80,150,255,.10);
+
+            filter: blur(15px);
         }
 
-        .results-header p {
-            max-width: 650px;
-            margin: auto;
+        .eyebrow {
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            color: #70c7ff;
+
+            background: rgba(70,160,255,.08);
+
+            border:
+                1px solid
+                rgba(70,160,255,.20);
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+
+            text-transform: uppercase;
         }
 
-        .results-grid {
+        .hero h1 {
+            margin: 17px 0 10px;
+
+            font-size:
+                clamp(35px, 5vw, 58px);
+
+            line-height: 1.05;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #74c7ff,
+                    #b58aff
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            margin: 0;
+
+            max-width: 760px;
+
+            color: #8d9bb4;
+
+            font-size: 14px;
+
+            line-height: 1.75;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 35px;
+        }
+
+        .summary-card {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.055);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            backdrop-filter: blur(18px);
+
+            transition: .3s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(100,175,255,.35);
+
+            box-shadow:
+                0 18px 45px rgba(0,0,0,.25);
+        }
+
+        .summary-title {
+            color: #7d8ba4;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+        }
+
+        .summary-number {
+            margin-top: 12px;
+
+            font-size: 40px;
+
+            font-weight: 800;
+        }
+
+        .blue {
+            color: #60bfff;
+        }
+
+        .purple {
+            color: #a78bfa;
+        }
+
+        .red {
+            color: #fb7185;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section-title {
+            margin: 35px 0 17px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+
+            font-size: 25px;
+        }
+
+        .section-title p {
+            margin: 7px 0 0;
+
+            color: #71809a;
+
+            font-size: 13px;
+        }
+
+        /* ================= RESULT GRID ================= */
+
+        .results {
             display: grid;
 
             grid-template-columns:
                 repeat(2, 1fr);
 
-            gap: 22px;
+            gap: 18px;
         }
 
-        .analysis-card {
+        .result-card {
+            padding: 26px;
 
-            padding: 28px;
-
-            border-radius: 20px;
+            border-radius: 21px;
 
             background:
-                rgba(255,255,255,0.06);
+                rgba(255,255,255,.055);
 
             border:
-                1px solid rgba(255,255,255,0.12);
+                1px solid
+                rgba(255,255,255,.09);
 
-            box-shadow:
-                0 15px 45px rgba(0,0,0,0.25);
+            backdrop-filter: blur(18px);
 
-            transition: 0.3s;
+            transition: .3s;
         }
 
-        .analysis-card:hover {
-
-            transform:
-                translateY(-6px);
+        .result-card:hover {
+            transform: translateY(-5px);
 
             border-color:
-                rgba(79,172,254,0.4);
+                rgba(100,175,255,.30);
 
             box-shadow:
-                0 20px 55px rgba(0,0,0,0.35);
+                0 20px 50px rgba(0,0,0,.25);
         }
 
-        .skill-title {
-
-            font-size: 27px;
-
-            font-weight: 800;
-
-            margin-bottom: 20px;
-
-            color: white;
-        }
-
-        .info-row {
-
+        .result-top {
             display: flex;
 
-            justify-content:
-                space-between;
+            justify-content: space-between;
 
             align-items: center;
 
             gap: 15px;
 
-            padding: 14px 0;
-
-            border-bottom:
-                1px solid
-                rgba(255,255,255,0.07);
+            margin-bottom: 20px;
         }
 
-        .info-row:last-child {
-            border-bottom: none;
+        .skill-name {
+            font-size: 21px;
+
+            font-weight: 700;
+
+            word-break: break-word;
         }
 
-        .info-label {
-            color: #8f9db8;
-        }
+        .level {
+            padding: 7px 11px;
 
-        .info-value {
+            border-radius: 20px;
+
+            font-size: 10px;
+
             font-weight: bold;
-            color: #eaf1ff;
-            text-align: right;
+
+            white-space: nowrap;
         }
 
-        .level-badge {
-
-            display: inline-block;
-
-            padding:
-                7px 13px;
-
-            border-radius: 30px;
+        .beginner {
+            color: #60a5fa;
 
             background:
-                rgba(79,172,254,0.14);
-
-            color: #70c4ff;
-
-            font-size: 13px;
+                rgba(59,130,246,.12);
         }
 
-        .gap-badge {
+        .intermediate {
+            color: #a78bfa;
 
-            display: inline-block;
+            background:
+                rgba(139,92,246,.12);
+        }
 
-            padding:
-                7px 13px;
+        .advanced {
+            color: #22d3ee;
 
-            border-radius: 30px;
+            background:
+                rgba(6,182,212,.12);
+        }
 
-            font-size: 13px;
+        /* ================= GAP ================= */
+
+        .gap-row {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+        .gap-label {
+            color: #77869f;
+
+            font-size: 12px;
+        }
+
+        .gap {
+            padding: 6px 11px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
 
             font-weight: bold;
         }
 
         .gap-high {
-            background:
-                rgba(255,80,80,0.14);
+            color: #fb7185;
 
-            color: #ff8d8d;
+            background:
+                rgba(251,113,133,.10);
         }
 
         .gap-medium {
-            background:
-                rgba(255,180,50,0.14);
+            color: #fbbf24;
 
-            color: #ffc66d;
+            background:
+                rgba(251,191,36,.10);
         }
 
         .gap-low {
-            background:
-                rgba(60,210,140,0.14);
+            color: #34d399;
 
-            color: #6ee7ad;
+            background:
+                rgba(52,211,153,.10);
         }
 
-        .recommendation {
+        /* ================= PROGRESS ================= */
 
-            margin-top: 20px;
+        .progress {
+            width: 100%;
 
-            padding: 18px;
+            height: 9px;
 
-            border-radius: 14px;
+            margin: 12px 0 20px;
+
+            border-radius: 20px;
 
             background:
-                rgba(255,255,255,0.045);
+                rgba(255,255,255,.07);
 
-            border:
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+
+            border-radius: 20px;
+        }
+
+        .progress-beginner {
+            width: 35%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #3b82f6,
+                    #60a5fa
+                );
+        }
+
+        .progress-intermediate {
+            width: 70%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #8b5cf6,
+                    #a78bfa
+                );
+        }
+
+        .progress-advanced {
+            width: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #06b6d4,
+                    #22d3ee
+                );
+        }
+
+        /* ================= RECOMMENDATION ================= */
+
+        .recommendation {
+            padding-top: 18px;
+
+            border-top:
                 1px solid
-                rgba(255,255,255,0.07);
+                rgba(255,255,255,.07);
         }
 
         .recommendation-title {
+            color: #70c7ff;
+
+            font-size: 11px;
 
             font-weight: bold;
 
-            color: #8bc9ff;
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
 
             margin-bottom: 8px;
         }
 
         .recommendation p {
-
             margin: 0;
 
-            font-size: 14px;
+            color: #8795ad;
 
-            line-height: 1.7;
+            font-size: 13px;
+
+            line-height: 1.65;
         }
 
-        .no-results {
+        /* ================= ROADMAP ================= */
 
-            text-align: center;
+        .roadmap {
+            display: grid;
 
-            padding: 50px 25px;
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+        .roadmap-card {
+            padding: 25px;
 
             border-radius: 20px;
 
             background:
-                rgba(255,255,255,0.05);
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.07),
+                    rgba(255,255,255,.035)
+                );
 
             border:
                 1px solid
-                rgba(255,255,255,0.1);
+                rgba(255,255,255,.09);
+
+            transition: .3s;
         }
 
-        .no-results-icon {
-            font-size: 50px;
-            margin-bottom: 15px;
+        .roadmap-card:hover {
+            transform: translateY(-5px);
+
+            border-color:
+                rgba(100,175,255,.30);
         }
 
-        .results-navigation {
+        .step {
+            width: 43px;
+            height: 43px;
 
             display: flex;
 
-            justify-content:
-                space-between;
+            align-items: center;
+            justify-content: center;
 
-            flex-wrap: wrap;
+            border-radius: 12px;
 
-            gap: 15px;
+            margin-bottom: 15px;
 
-            margin-top: 35px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #1685ff,
+                    #7648ff
+                );
 
-            padding-top: 22px;
-
-            border-top:
-                1px solid
-                rgba(255,255,255,0.08);
+            font-weight: bold;
         }
 
-        @media (max-width: 750px) {
+        .roadmap-card h3 {
+            margin: 0 0 8px;
 
-            .results-grid {
+            font-size: 17px;
+        }
+
+        .roadmap-card p {
+            margin: 0;
+
+            color: #7d8ba3;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            padding: 60px 25px;
+
+            text-align: center;
+
+            border-radius: 21px;
+
+            border:
+                1px dashed
+                rgba(255,255,255,.13);
+
+            background:
+                rgba(255,255,255,.035);
+        }
+
+        .empty-icon {
+            font-size: 45px;
+
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            margin: 0 0 8px;
+        }
+
+        .empty p {
+            margin: 0;
+
+            color: #71809a;
+
+            font-size: 13px;
+        }
+
+        .button {
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 12px 19px;
+
+            border-radius: 11px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1685ff,
+                    #7648ff
+                );
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+
+            margin-top: 55px;
+
+            color: #4f5d73;
+
+            font-size: 11px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 850px) {
+
+            .summary {
                 grid-template-columns: 1fr;
             }
 
-            .info-row {
+            .results {
+                grid-template-columns: 1fr;
+            }
+
+            .roadmap {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .navbar {
                 flex-direction: column;
+
                 align-items: flex-start;
             }
 
-            .info-value {
-                text-align: left;
+            .hero {
+                padding: 28px 22px;
             }
 
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .result-top {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
         }
 
     </style>
@@ -287,12 +749,13 @@
 
 <body>
 
+
 <div class="container">
 
 
     <!-- NAVIGATION -->
 
-    <nav class="top-nav">
+    <nav class="navbar">
 
         <div class="logo">
             SkillsGapAnalytics
@@ -313,7 +776,7 @@
             </a>
 
             <a href="{{ url_for('skill_gap_results') }}">
-                Results
+                Analysis
             </a>
 
             <a href="{{ url_for('logout') }}">
@@ -325,165 +788,355 @@
     </nav>
 
 
-    <!-- HEADER -->
+    <!-- HERO -->
 
-    <div class="results-header">
+    <section class="hero">
 
-        <div class="results-icon">
-            📊
-        </div>
+        <span class="eyebrow">
+            Intelligent Career Analysis
+        </span>
 
         <h1>
-            Skill Gap Analysis
+            Your Skill Gap Analysis
         </h1>
 
         <p>
-            Understand where you currently stand and discover
-            what you should focus on next to improve your skills.
+            Analyze your current skill levels, understand your
+            development gaps and follow a clear learning path
+            toward your career goals.
         </p>
 
-    </div>
+    </section>
 
 
     {% if results %}
 
 
-        <div class="results-grid">
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Skills Analyzed
+            </div>
+
+            <div class="summary-number blue">
+                {{ results|length }}
+            </div>
+
+        </div>
 
 
-            {% for result in results %}
+        <div class="summary-card">
+
+            <div class="summary-title">
+                Development Focus
+            </div>
+
+            <div class="summary-number purple">
+
+                {% set medium_count =
+                    results
+                    |selectattr("gap", "equalto", "Medium")
+                    |list
+                    |length
+                %}
+
+                {{ medium_count }}
+
+            </div>
+
+        </div>
 
 
-                <div class="analysis-card">
+        <div class="summary-card">
+
+            <div class="summary-title">
+                High Priority Gaps
+            </div>
+
+            <div class="summary-number red">
+
+                {% set high_count =
+                    results
+                    |selectattr("gap", "equalto", "High")
+                    |list
+                    |length
+                %}
+
+                {{ high_count }}
+
+            </div>
+
+        </div>
+
+    </div>
 
 
-                    <div class="skill-title">
-                        {{ result.skill }}
-                    </div>
+    <!-- RESULTS -->
+
+    <div class="section-title">
+
+        <h2>
+            Skill-by-Skill Analysis
+        </h2>
+
+        <p>
+            Your current proficiency and recommended development path.
+        </p>
+
+    </div>
 
 
-                    <div class="info-row">
-
-                        <span class="info-label">
-                            Current Level
-                        </span>
-
-                        <span class="info-value">
-
-                            <span class="level-badge">
-                                {{ result.level }}
-                            </span>
-
-                        </span>
-
-                    </div>
+    <div class="results">
 
 
-                    <div class="info-row">
+        {% for item in results %}
 
-                        <span class="info-label">
-                            Skill Gap
-                        </span>
-
-                        <span class="info-value">
-
-                            {% if result.gap == "High" %}
-
-                                <span class="gap-badge gap-high">
-                                    High
-                                </span>
-
-                            {% elif result.gap == "Medium" %}
-
-                                <span class="gap-badge gap-medium">
-                                    Medium
-                                </span>
-
-                            {% elif result.gap == "Low" %}
-
-                                <span class="gap-badge gap-low">
-                                    Low
-                                </span>
-
-                            {% else %}
-
-                                <span class="gap-badge">
-                                    {{ result.gap }}
-                                </span>
-
-                            {% endif %}
-
-                        </span>
-
-                    </div>
+        <div class="result-card">
 
 
-                    <div class="recommendation">
+            <div class="result-top">
 
-                        <div class="recommendation-title">
-                            💡 Recommended Next Step
-                        </div>
-
-                        <p>
-                            {{ result.recommendation }}
-                        </p>
-
-                    </div>
-
-
+                <div class="skill-name">
+                    {{ item.skill }}
                 </div>
 
 
-            {% endfor %}
+                {% if item.level == "Beginner" %}
+
+                    <span class="level beginner">
+                        BEGINNER
+                    </span>
+
+                {% elif item.level == "Intermediate" %}
+
+                    <span class="level intermediate">
+                        INTERMEDIATE
+                    </span>
+
+                {% elif item.level == "Advanced" %}
+
+                    <span class="level advanced">
+                        ADVANCED
+                    </span>
+
+                {% else %}
+
+                    <span class="level">
+                        {{ item.level }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="gap-row">
+
+                <span class="gap-label">
+                    Skill Gap Priority
+                </span>
+
+
+                {% if item.gap == "High" %}
+
+                    <span class="gap gap-high">
+                        HIGH PRIORITY
+                    </span>
+
+                {% elif item.gap == "Medium" %}
+
+                    <span class="gap gap-medium">
+                        MEDIUM
+                    </span>
+
+                {% elif item.gap == "Low" %}
+
+                    <span class="gap gap-low">
+                        LOW
+                    </span>
+
+                {% else %}
+
+                    <span class="gap">
+                        {{ item.gap }}
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- PROGRESS -->
+
+            <div class="progress">
+
+                {% if item.level == "Beginner" %}
+
+                    <div class="progress-fill progress-beginner"></div>
+
+                {% elif item.level == "Intermediate" %}
+
+                    <div class="progress-fill progress-intermediate"></div>
+
+                {% elif item.level == "Advanced" %}
+
+                    <div class="progress-fill progress-advanced"></div>
+
+                {% else %}
+
+                    <div
+                        class="progress-fill progress-beginner"
+                        style="width:20%;">
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- RECOMMENDATION -->
+
+            <div class="recommendation">
+
+                <div class="recommendation-title">
+                    Recommended Action
+                </div>
+
+                <p>
+                    {{ item.recommendation }}
+                </p>
+
+            </div>
 
 
         </div>
+
+        {% endfor %}
+
+
+    </div>
+
+
+    <!-- ROADMAP -->
+
+    <div class="section-title">
+
+        <h2>
+            Your Career Development Roadmap
+        </h2>
+
+        <p>
+            A simple three-stage approach to improving your professional readiness.
+        </p>
+
+    </div>
+
+
+    <div class="roadmap">
+
+
+        <div class="roadmap-card">
+
+            <div class="step">
+                01
+            </div>
+
+            <h3>
+                Strengthen Fundamentals
+            </h3>
+
+            <p>
+                Focus first on your high-priority skill gaps.
+                Build strong fundamentals through structured
+                learning and consistent practice.
+            </p>
+
+        </div>
+
+
+        <div class="roadmap-card">
+
+            <div class="step">
+                02
+            </div>
+
+            <h3>
+                Build Real Projects
+            </h3>
+
+            <p>
+                Convert your knowledge into practical experience
+                by creating projects that demonstrate your skills.
+            </p>
+
+        </div>
+
+
+        <div class="roadmap-card">
+
+            <div class="step">
+                03
+            </div>
+
+            <h3>
+                Become Career Ready
+            </h3>
+
+            <p>
+                Improve your advanced skills, build a strong
+                portfolio and prepare for real-world opportunities.
+            </p>
+
+        </div>
+
+
+    </div>
 
 
     {% else %}
 
 
-        <div class="no-results">
+    <!-- NO RESULTS -->
 
-            <div class="no-results-icon">
-                📚
-            </div>
+    <div class="empty">
 
-            <h2>
-                No Skills Added Yet
-            </h2>
-
-            <p>
-                Add some technical skills first to generate
-                your personalized skill gap analysis.
-            </p>
-
-            <a href="{{ url_for('skills') }}">
-                Add Your First Skill →
-            </a>
-
+        <div class="empty-icon">
+            📊
         </div>
 
+        <h2>
+            No Skill Analysis Available
+        </h2>
 
-    {% endif %}
+        <p>
+            Add at least one skill to your profile to generate
+            your personalized skill-gap analysis.
+        </p>
 
-
-    <!-- BOTTOM NAVIGATION -->
-
-    <div class="results-navigation">
-
-        <a href="{{ url_for('dashboard') }}">
-            ← Back to Dashboard
-        </a>
-
-        <a href="{{ url_for('skills') }}">
-            + Add More Skills
+        <a
+            class="button"
+            href="{{ url_for('skills') }}"
+        >
+            + Add Your First Skill
         </a>
 
     </div>
 
 
+    {% endif %}
+
+
+    <footer>
+        SkillsGapAnalytics © 2026 · Intelligent Career Development Platform
+    </footer>
+
+
 </div>
+
 
 </body>
 

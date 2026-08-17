@@ -1,24 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>My Profile | SkillsGapAnalytics</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <title>Profile | SkillsGapAnalytics</title>
 
     <style>
-        .profile-header {
-            text-align: center;
-            margin-bottom: 35px;
+
+        * {
+            box-sizing: border-box;
         }
 
-        .profile-icon {
-            width: 90px;
-            height: 90px;
-            margin: 0 auto 18px;
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+
+            background:
+                radial-gradient(circle at 10% 10%, rgba(0,140,255,.20), transparent 30%),
+                radial-gradient(circle at 90% 85%, rgba(150,50,255,.20), transparent 30%),
+                #030712;
+
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+
+            background-image:
+                linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+
+            background-size: 45px 45px;
+
+            pointer-events: none;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 25px 0 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* NAVBAR */
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 16px 20px;
+            margin-bottom: 25px;
+
+            border-radius: 18px;
+
+            background: rgba(10,18,38,.75);
+            border: 1px solid rgba(255,255,255,.10);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow: 0 15px 50px rgba(0,0,0,.30);
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+
+            background: linear-gradient(90deg,#4facfe,#9f7aea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #9eacc5;
+            text-decoration: none;
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 13px;
+            transition: .25s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background: rgba(255,255,255,.08);
+            transform: translateY(-2px);
+        }
+
+        /* HEADER */
+
+        .hero {
+            padding: 40px;
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(25,80,170,.28),
+                    rgba(100,40,180,.18)
+                );
+
+            border: 1px solid rgba(255,255,255,.10);
+
+            backdrop-filter: blur(18px);
+
+            margin-bottom: 20px;
+        }
+
+        .eyebrow {
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 30px;
+
+            color: #70c7ff;
+
+            background: rgba(70,160,255,.08);
+
+            border: 1px solid rgba(70,160,255,.20);
+
+            font-size: 11px;
+            font-weight: bold;
+
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 {
+            margin: 16px 0 10px;
+
+            font-size: clamp(35px,5vw,58px);
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #74c7ff,
+                    #b58aff
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            margin: 0;
+
+            max-width: 700px;
+
+            color: #8d9bb4;
+
+            line-height: 1.7;
+
+            font-size: 14px;
+        }
+
+        /* PROFILE LAYOUT */
+
+        .profile-layout {
+            display: grid;
+
+            grid-template-columns: 1fr 1.5fr;
+
+            gap: 20px;
+        }
+
+        .card {
+            padding: 30px;
+
+            border-radius: 22px;
+
+            background: rgba(255,255,255,.055);
+
+            border: 1px solid rgba(255,255,255,.09);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        }
+
+        /* LEFT SIDE */
+
+        .identity {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 115px;
+            height: 115px;
+
+            margin: 0 auto 20px;
 
             display: flex;
             align-items: center;
@@ -26,51 +211,288 @@
 
             border-radius: 50%;
 
-            font-size: 42px;
+            font-size: 43px;
+            font-weight: bold;
 
-            background: linear-gradient(
-                135deg,
-                #1677ff,
-                #774cff
-            );
+            background:
+                linear-gradient(
+                    135deg,
+                    #1685ff,
+                    #7648ff
+                );
 
             box-shadow:
-                0 10px 35px rgba(80,100,255,0.35);
+                0 0 45px
+                rgba(70,120,255,.25);
         }
 
-        .profile-form {
-            max-width: 700px;
-            margin: auto;
+        .identity h2 {
+            margin: 0 0 8px;
+            font-size: 25px;
         }
 
-        .profile-section {
-            padding: 28px;
+        .identity .email {
+            color: #71809a;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .divider {
+            height: 1px;
+
+            margin: 25px 0;
+
+            background:
+                rgba(255,255,255,.08);
+        }
+
+        .info-item {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .info-label {
+            color: #65738b;
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1.2px;
+
+            margin-bottom: 6px;
+        }
+
+        .info-value {
+            color: #d5deed;
+            font-size: 14px;
+        }
+
+        /* FORM */
+
+        .form-header {
+            margin-bottom: 25px;
+        }
+
+        .form-header h2 {
+            margin: 0 0 7px;
+            font-size: 24px;
+        }
+
+        .form-header p {
+            margin: 0;
+            color: #71809a;
+            font-size: 13px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 18px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field.full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            margin-bottom: 8px;
+
+            color: #8f9db5;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border-radius: 12px;
+
+            border: 1px solid rgba(255,255,255,.10);
+
+            outline: none;
+
+            background: rgba(0,0,0,.22);
+
+            color: white;
+
+            font-size: 14px;
+
+            font-family: inherit;
+
+            transition: .25s;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: #53627a;
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: rgba(80,170,255,.55);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(50,140,255,.08);
+        }
+
+        .field textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .save-button {
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 15px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            color: white;
+
+            font-weight: 700;
+
+            font-size: 14px;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1685ff,
+                    #7648ff
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(70,100,255,.20);
+
+            transition: .3s;
+        }
+
+        .save-button:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(70,100,255,.32);
+        }
+
+        /* BOTTOM */
+
+        .career-card {
+            margin-top: 20px;
+
+            padding: 25px;
 
             border-radius: 20px;
 
-            background: rgba(255,255,255,0.055);
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(70,130,255,.10),
+                    rgba(140,70,255,.08)
+                );
 
-            border: 1px solid rgba(255,255,255,0.11);
-
-            box-shadow:
-                0 15px 45px rgba(0,0,0,0.25);
+            border: 1px solid rgba(100,160,255,.13);
         }
 
-        .profile-section h2 {
-            margin-top: 0;
+        .career-card h3 {
+            margin: 0 0 8px;
+            font-size: 18px;
         }
 
-        .profile-section p {
-            margin-bottom: 25px;
+        .career-card p {
+            margin: 0;
+
+            color: #8795ad;
+
+            line-height: 1.7;
+
+            font-size: 13px;
         }
+
+        footer {
+            text-align: center;
+
+            margin-top: 50px;
+
+            color: #4f5d73;
+
+            font-size: 11px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:850px) {
+
+            .profile-layout {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media(max-width:600px) {
+
+            .container {
+                width: 94%;
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .hero,
+            .card {
+                padding: 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .field.full {
+                grid-column: auto;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-    <nav class="top-nav">
+
+    <!-- NAVIGATION -->
+
+    <nav class="navbar">
 
         <div class="logo">
             SkillsGapAnalytics
@@ -91,7 +513,7 @@
             </a>
 
             <a href="{{ url_for('skill_gap_results') }}">
-                Results
+                Analysis
             </a>
 
             <a href="{{ url_for('logout') }}">
@@ -103,109 +525,275 @@
     </nav>
 
 
-    <div class="profile-header">
+    <!-- HERO -->
 
-        <div class="profile-icon">
-            👤
+    <section class="hero">
+
+        <span class="eyebrow">
+            Professional Profile
+        </span>
+
+        <h1>
+            Build Your Career Identity
+        </h1>
+
+        <p>
+            Complete your professional profile to help
+            SkillsGapAnalytics understand your education,
+            career goals and development journey.
+        </p>
+
+    </section>
+
+
+    <!-- PROFILE -->
+
+    <div class="profile-layout">
+
+
+        <!-- LEFT -->
+
+        <div class="card identity">
+
+            <div class="avatar">
+
+                {% if profile and profile["name"] %}
+                    {{ profile["name"][0]|upper }}
+                {% else %}
+                    U
+                {% endif %}
+
+            </div>
+
+
+            <h2>
+
+                {% if profile and profile["name"] %}
+                    {{ profile["name"] }}
+                {% else %}
+                    Your Profile
+                {% endif %}
+
+            </h2>
+
+
+            <div class="email">
+                {{ session["user_email"] }}
+            </div>
+
+
+            <div class="divider"></div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    College / University
+                </div>
+
+                <div class="info-value">
+
+                    {% if profile and profile["college"] %}
+                        {{ profile["college"] }}
+                    {% else %}
+                        Not added yet
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Course
+                </div>
+
+                <div class="info-value">
+
+                    {% if profile and profile["course"] %}
+                        {{ profile["course"] }}
+                    {% else %}
+                        Not added yet
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Career Goal
+                </div>
+
+                <div class="info-value">
+
+                    {% if profile and profile["career_goal"] %}
+                        {{ profile["career_goal"] }}
+                    {% else %}
+                        Not added yet
+                    {% endif %}
+
+                </div>
+
+            </div>
+
         </div>
 
-        <h1>My Profile</h1>
+
+        <!-- RIGHT FORM -->
+
+        <div class="card">
+
+            <div class="form-header">
+
+                <h2>
+                    Personal & Career Details
+                </h2>
+
+                <p>
+                    Keep your professional information up to date.
+                </p>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('profile') }}"
+            >
+
+
+                <div class="form-grid">
+
+
+                    <div class="field">
+
+                        <label>
+                            FULL NAME
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            value="{% if profile %}{{ profile['name'] }}{% else %}{{ session['user_name'] }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            EMAIL
+                        </label>
+
+                        <input
+                            type="email"
+                            value="{{ session['user_email'] }}"
+                            disabled
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            COLLEGE / UNIVERSITY
+                        </label>
+
+                        <input
+                            type="text"
+                            name="college"
+                            placeholder="Enter your college"
+                            value="{% if profile %}{{ profile['college'] }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            COURSE / DEGREE
+                        </label>
+
+                        <input
+                            type="text"
+                            name="course"
+                            placeholder="Example: B.Tech CSE"
+                            value="{% if profile %}{{ profile['course'] }}{% endif %}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            CAREER GOAL
+                        </label>
+
+                        <textarea
+                            name="career_goal"
+                            placeholder="Example: Become a Full Stack Developer and build scalable web applications."
+                            required
+                        >{% if profile %}{{ profile['career_goal'] }}{% endif %}</textarea>
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    Save Professional Profile
+                </button>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- CAREER MESSAGE -->
+
+    <section class="career-card">
+
+        <h3>
+            🚀 Your career journey starts with your profile
+        </h3>
 
         <p>
-            Tell us about yourself and your career goals.
+            The more complete your profile becomes, the better
+            you can understand your skills, identify development
+            gaps and track your progress toward your career goal.
         </p>
 
-    </div>
+    </section>
 
 
-    <div class="profile-section">
+    <footer>
+        SkillsGapAnalytics © 2026 · Intelligent Career Development Platform
+    </footer>
 
-        <h2>Professional Information</h2>
-
-        <p>
-            Keep your information updated to build your
-            professional skill profile.
-        </p>
-
-
-        <form
-            class="profile-form"
-            method="POST"
-            action="/profile"
-        >
-
-            <label>Name</label>
-
-            <input
-                type="text"
-                name="name"
-                placeholder="Enter your full name"
-                required
-            >
-
-
-            <label>Email</label>
-
-            <input
-                type="email"
-                name="email"
-                placeholder="Enter your email"
-                required
-            >
-
-
-            <label>College</label>
-
-            <input
-                type="text"
-                name="college"
-                placeholder="Enter your college name"
-                required
-            >
-
-
-            <label>Course</label>
-
-            <input
-                type="text"
-                name="course"
-                placeholder="Example: B.Tech Computer Science"
-                required
-            >
-
-
-            <label>Career Goal</label>
-
-            <input
-                type="text"
-                name="career_goal"
-                placeholder="Example: Full Stack Developer"
-                required
-            >
-
-
-            <button type="submit">
-                Save Profile →
-            </button>
-
-        </form>
-
-    </div>
-
-
-    <div class="page-nav">
-
-        <a href="{{ url_for('dashboard') }}">
-            ← Back to Dashboard
-        </a>
-
-        <a href="{{ url_for('logout') }}">
-            Logout
-        </a>
-
-    </div>
 
 </div>
 
+
 </body>
+
 </html>
