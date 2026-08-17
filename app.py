@@ -32,7 +32,7 @@ def register():
     try:
         cursor.execute(
             "INSERT INTO users (name, email, password) VALUES (?, ?, ?)",
-            (name, email, password)
+            (name, email, password_hash)
         )
         conn.commit()
     except sqlite3.IntegrityError:
@@ -43,31 +43,32 @@ def register():
 
     return redirect(url_for("home"))
 
-
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    email = request.form["email"]
-    password = request.form["password"]
-    password_hash = generate_password_hash(password)
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
 
-    conn = sqlite3.connect("skillsgap.db")
-    cursor = conn.cursor()
+        conn = sqlite3.connect("skillsgap.db")
+        cursor = conn.cursor()
 
-    cursor.execute(
-    "SELECT * FROM users WHERE email=?",
-    (email,)
-)
+        cursor.execute(
+            "SELECT * FROM users WHERE email=?",
+            (email,)
+        )
 
-user = cursor.fetchone()
-conn.close()
+        user = cursor.fetchone()
+        conn.close()
 
-if user and check_password_hash(user[3], password):
-        session["user_email"] = user[2]
-        session["user_name"] = user[1]
+        if user and check_password_hash(user[3], password):
+            session["user_email"] = user[2]
+            session["user_name"] = user[1]
 
-        return redirect(url_for("dashboard"))
-    else:
-        return "Invalid Email or Password"
+            return redirect(url_for("dashboard"))
+        else:
+            return "Invalid Email or Password"
+
+    return render_template("login.html")
 
 @app.route("/dashboard")
 def dashboard():
