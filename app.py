@@ -29,6 +29,14 @@ def init_db():
             career_goal TEXT
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS skills (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT,
+            skill TEXT,
+            level TEXT
+        )
+    ''')
     conn.commit()
     conn.close()
 
