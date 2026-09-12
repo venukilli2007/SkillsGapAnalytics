@@ -8,12 +8,31 @@ app.secret_key = "skills-gap-secret-key"
 
 DATABASE = "skillsgap.db"
 
-import database
+def init_db():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT,
+            college TEXT,
+            course TEXT,
+            career_goal TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-# Initialize database tables if they don't exist
-with app.app_context():
-    database.init_db()  # Or whatever function name is inside your database.py file
-
+init_db()
 
 # =========================================================
 # DATABASE CONNECTION
