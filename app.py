@@ -8,6 +8,12 @@ app.secret_key = "skills-gap-secret-key"
 
 DATABASE = "skillsgap.db"
 
+import database
+
+# Initialize database tables if they don't exist
+with app.app_context():
+    database.init_db()  # Or whatever function name is inside your database.py file
+
 
 # =========================================================
 # DATABASE CONNECTION
